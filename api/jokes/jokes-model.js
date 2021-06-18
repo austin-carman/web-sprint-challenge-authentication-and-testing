@@ -11,20 +11,20 @@ function findBy(filter) {
     return user;
 }
 
-async function findById(user_id) {
+async function findById(id) {
     const user = await db('users')
-        .where('user_id', user_id)
+        .where('id', id)
         .first()
     return user;
 }
 
 async function add({ username, password }) {
-    let created_user_id
+    let created_id
     await db.transaction(async trx => {
-        const [user_id] = await trx('users').insert({ username, password })
-        created_user_id = user_id
+        const [id] = await trx('users').insert({ username, password })
+        created_id = id
     })
-    return findById(created_user_id)
+    return findById(created_id)
 }
 
 
