@@ -1,11 +1,27 @@
 exports.up = function (knex) {
-  return knex.schema.createTable('users', users => {
-    users.increments();
-    users.string('username', 255).notNullable().unique();
-    users.string('password', 255).notNullable();
-  });
+  return knex.schema
+    .createTable('users', users => {
+      users.increments('user_id');
+      users.string('username', 255).notNullable().unique();
+      users.string('password', 255).notNullable();
+    })
+    // .createTable('jokes', jokes => {
+    //   jokes.increments('joke_id');
+    //   jokes.string('joke', 255).notNullable();
+    //   jokes.integer('user_id')
+    //     .unsigned()
+    //     .notNullable()
+    //     .references('role_id')
+    //     .inTable('users')
+    //     .onUpdate('RESTRICT')
+    //     .onDelete('RESTRICT')
+    // });
+
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('users');
+  return knex.schema
+    .dropTableIfExists('jokes')
+    .dropTableIfExists('users');
+
 };
