@@ -14,8 +14,8 @@ const validateBody = (req, res, next) => {
 }
 
 async function checkUsernameFree(req, res, next) {
-    const users = await Users.findBy({ username: req.body.username })
-    if(!users) {
+    const user = await Users.findBy({ username: req.body.username })
+    if(!user) {
         next()
     } else {
     next({ message: "username taken", status: 422 })
