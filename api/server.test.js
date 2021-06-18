@@ -17,14 +17,25 @@ test('sanity', () => {
 })
 
 describe('[POST] /register', () => {
-  test('returns a status 200 OK', async () => {
-    const res = await request(server).post('/register').send({username: 'bob', password: '1234'})
+  test('returns a status 201', async () => {
+    const res = await request(server).post('/api/auth/register').send({username: 'bob', password: '1234'})
     expect(res.status).toBe(201)
+  })
+  test('returns correct error message if password is missing', async () => {
+    const res = await request(server).post('/api/auth/register').send({username: 'bob'})
+    expect(res.status).toBe(400)
   })
 })
 describe('[POST] /login', () => {
-  it('returns a status 201 CREATED', async () => {
-    
+  test('returns a status 200 OK', async () => {
+    await request(server).post('/api/auth/register').send({username: 'bob', password: '1234'})
+    const res = await request(server).post('/api/auth/login').send({username: 'bob', password: '1234'})
+    expect(res.status).toBe(200)
+  })
+  test('returns a status 200 OK', async () => {
+    await request(server).post('/api/auth/register').send({username: 'bob', password: '1234'})
+    const res = await request(server).post('/api/auth/login').send({username: 'bob', password: '12345'})
+    expect(res.status).toBe(401)
   })
 })
 
